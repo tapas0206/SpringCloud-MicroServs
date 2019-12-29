@@ -1,13 +1,23 @@
 package com.mircrServ.currencyexchangeservice.dto;
 
-import javax.persistence.Entity;
 import java.math.BigDecimal;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 public class CurrExchangeVal {
-
+	
+	@Id
+	@GeneratedValue
 	private Long Id;
+	
+	@Column(name="curr_from")
 	private String from;
+	
+	@Column(name="curr_to")
 	private String to;
 	private BigDecimal conversionVal;
 	private int port;
