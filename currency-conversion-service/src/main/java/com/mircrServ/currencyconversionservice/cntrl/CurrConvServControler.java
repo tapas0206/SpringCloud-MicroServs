@@ -12,12 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import com.mircrServ.currencyconversionservice.dto.CurrConversionDTO;
+import com.mircrServ.currencyconversionservice.proxy.CurrencyExchangeServProxy;
 
 @RestController
 public class CurrConvServControler {
 	
 	@Autowired
 	private org.springframework.core.env.Environment environment;
+	
+	@Autowired
+	private CurrencyExchangeServProxy currExchgServProxy;
 	
 
 	@GetMapping("/CurrConverter/from/{from}/to/{to}/quanitiy/{quanitiy}")
@@ -37,4 +41,18 @@ public class CurrConvServControler {
 		
 		return conversionDTO;
 	}
+	
+	
+	@GetMapping("/CurrConverter-feign/from/{from}/to/{to}/quanitiy/{quanitiy}")
+	public CurrConversionDTO ConverionServiceFeign(@PathVariable String from,@PathVariable String to,@PathVariable BigDecimal quanitiy) {
+
+		CurrConversionDTO response = currExchgServProxy.retriveExchangeVal(from, to);
+		
+		CurrConversionDTO conversionDTO=new CurrConversionDTO(response.getId(),from,to,quanitiy,quanitiy.multiply(response.getConversionVal()),
+				Integer.parseInt(environment.getProperty("local.server.port")),response.getConversionVal());
+		
+		return conversionDTO;
+	}
+	
+	
 }
