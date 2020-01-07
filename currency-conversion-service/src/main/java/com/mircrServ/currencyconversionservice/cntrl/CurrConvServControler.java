@@ -49,8 +49,8 @@ public class CurrConvServControler {
 		CurrConversionDTO response = currExchgServProxy.retriveExchangeVal(from, to);
 		
 		CurrConversionDTO conversionDTO=new CurrConversionDTO(response.getId(),from,to,quanitiy,quanitiy.multiply(response.getConversionVal()),
-				Integer.parseInt(environment.getProperty("local.server.port")),response.getConversionVal());
-		
+				response.getPort(),response.getConversionVal());
+		System.out.println("Load Balancer Port::: "+response.getPort());
 		return conversionDTO;
 	}
 	
