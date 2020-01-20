@@ -57,7 +57,6 @@ public class CurrConvServControler {
 		
 		System.out.println("Load Balancer Port::: "+response.getPort());
 		logger.info("{}",response.getPort());
-		
 		return conversionDTO;
 	}
 	
