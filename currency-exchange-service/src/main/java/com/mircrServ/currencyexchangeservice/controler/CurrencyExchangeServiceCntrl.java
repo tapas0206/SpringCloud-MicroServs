@@ -2,6 +2,7 @@ package com.mircrServ.currencyexchangeservice.controler;
 
 import java.math.BigDecimal;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,11 +20,17 @@ public class CurrencyExchangeServiceCntrl {
 	@Autowired
 	private CurrExchgRepository currReposiotry;
 	
+	private Logger logger=org.slf4j.LoggerFactory.getLogger(this.getClass());
+	
 	@GetMapping("/Curr-Excg-Serv/from/{from}/to/{to}")
 	public CurrExchangeVal retriveExchangeVal(@PathVariable String from,@PathVariable String to) {
 		CurrExchangeVal exchgVal=new CurrExchangeVal(100L,from,to,BigDecimal.valueOf(65));
+		
 		exchgVal=currReposiotry.findByFromAndTo(from,to);
+		
 		exchgVal.setPort(Integer.parseInt(environment.getProperty("local.server.port")));
+		logger.info("{}",exchgVal);
+		
 		return exchgVal;
 	}
 

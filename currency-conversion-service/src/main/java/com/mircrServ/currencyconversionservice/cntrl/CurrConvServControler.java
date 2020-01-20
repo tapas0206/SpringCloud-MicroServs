@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,8 @@ public class CurrConvServControler {
 	
 	@Autowired
 	private CurrencyExchangeServProxy currExchgServProxy;
+	
+	private Logger logger=org.slf4j.LoggerFactory.getLogger(this.getClass());
 	
 
 	@GetMapping("/CurrConverter/from/{from}/to/{to}/quanitiy/{quanitiy}")
@@ -48,9 +51,13 @@ public class CurrConvServControler {
 
 		CurrConversionDTO response = currExchgServProxy.retriveExchangeVal(from, to);
 		
+		logger.info("{}",response);
 		CurrConversionDTO conversionDTO=new CurrConversionDTO(response.getId(),from,to,quanitiy,quanitiy.multiply(response.getConversionVal()),
 				response.getPort(),response.getConversionVal());
+		
 		System.out.println("Load Balancer Port::: "+response.getPort());
+		logger.info("{}",response.getPort());
+		
 		return conversionDTO;
 	}
 	
