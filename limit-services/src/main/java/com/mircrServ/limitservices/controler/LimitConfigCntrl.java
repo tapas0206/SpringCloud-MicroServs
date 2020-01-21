@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mircrServ.limitservices.configs.PropsConfigurations;
 import com.mircrServ.limitservices.dto.LimitConfiguration;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 
 @RestController
 public class LimitConfigCntrl {
@@ -17,6 +18,16 @@ public class LimitConfigCntrl {
 	public LimitConfiguration retriveLimit() {
 		return new LimitConfiguration(100,1);
 	}
+
+//	@GetMapping("/fault-tolerance-limits")
+//	@HystrixCommand(fallbackMethod="fallbackRetriveConfig")
+//	public LimitConfiguration retriveLimiFaultTol() {
+//		throw new RuntimeException("Unavailable");
+//	}
+//	
+//	public LimitConfiguration fallbackRetriveConfig() {
+//		return new LimitConfiguration(9999,88);
+//	}
 	
 	@GetMapping("/ConifigLimits")
 	public LimitConfiguration retriveLimitFromConfig() {
